@@ -3,7 +3,7 @@ import { FilmDto, ScheduleDto } from '../films/dto/films.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 
-function toScheduleDto(schedule: any): ScheduleDto {
+function toScheduleDto(schedule: ScheduleDto): ScheduleDto {
   return {
     id: schedule.id,
     daytime: schedule.daytime,
@@ -15,7 +15,7 @@ function toScheduleDto(schedule: any): ScheduleDto {
   };
 }
 
-function toFilmDto(film: any): FilmDto {
+function toFilmDto(film: FilmDto): FilmDto {
   return {
     id: film.id,
     rating: film.rating,
