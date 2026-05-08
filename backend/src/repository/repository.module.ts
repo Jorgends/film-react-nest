@@ -1,10 +1,11 @@
 import { Module } from '@nestjs/common';
 import { AppRepository } from './appRepository';
-import { MongooseModule } from '@nestjs/mongoose';
-import { FilmSchema } from './film.model';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { Schedule } from 'src/films/entities/schedule.entity';
+import { Film } from 'src/films/entities/films.entity';
 
 @Module({
-  imports: [MongooseModule.forFeature([{ name: 'Film', schema: FilmSchema }])],
+  imports: [TypeOrmModule.forFeature([Film, Schedule])],
   providers: [AppRepository],
   exports: [AppRepository],
 })
