@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { AppRepository } from 'src/repository/appRepository';
+import { AppRepository } from '../repository/appRepository';
 import { FilmDto, ScheduleDto } from './dto/films.dto';
 
 @Injectable()

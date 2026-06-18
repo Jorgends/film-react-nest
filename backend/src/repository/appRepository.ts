@@ -2,8 +2,8 @@
 import { InjectRepository } from '@nestjs/typeorm';
 import { FilmDto } from '../films/dto/films.dto';
 import { Repository } from 'typeorm';
-import { Film } from 'src/films/entities/films.entity';
-import { Schedule } from 'src/films/entities/schedule.entity';
+import { Film } from '../films/entities/films.entity';
+import { Schedule } from '../films/entities/schedule.entity';
 
 export class AppRepository {
   constructor(

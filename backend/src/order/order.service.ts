@@ -4,7 +4,7 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { AppRepository } from 'src/repository/appRepository';
+import { AppRepository } from '../repository/appRepository';
 import { NewOrderDTO, PostOrderTicketDTO } from './dto/order.dto';
 
 @Injectable()
