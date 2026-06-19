@@ -17,6 +17,9 @@ jobs:
         service: [frontend, backend, nginx]
 
     steps:
+      - name: Имя владельца в нижнем регистре
+        run: echo "OWNER=${GITHUB_ACTOR,,}" >> $GITHUB_ENV
+
       - name: Получение исходного кода
         uses: actions/checkout@v4
 
@@ -38,5 +41,5 @@ jobs:
           push: true
           # Названия образов будут: film-react-frontend, film-react-backend, film-react-nginx
           tags: |
-            ghcr.io/jorgend/film-react-${{ matrix.service }}:latest
-            ghcr.io/jorgend/film-react-${{ matrix.service }}:${{ github.sha }}
+            ghcr.io/${{ env.OWNER }}/film-react-${{ matrix.service }}:latest
+            ghcr.io/${{ env.OWNER }}/film-react-${{ matrix.service }}:${{ github.sha }}
