@@ -12,8 +12,10 @@ RUN npm run build
 
 FROM alpine:latest
 
-WORKDIR /frontend-dist
+# Явно создаем директорию /shared, которая примонтирована к volume
+WORKDIR /shared
 
 COPY --from=builder /app/dist .
 
-CMD ["sh", "-c", "cp -r ./* /shared/ && tail -f /dev/null"]
+# Копируем файлы из текущей папки сборки в корень shared-директории
+CMD ["sh", "-c", "cp -r ./* /shared && tail -f /dev/null"]
