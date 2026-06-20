@@ -1,7 +1,6 @@
 # FILM!
+сайт - tpunion.students.nomorepartiessite.ru
 
-ФРОНТ - tpunion.students.nomorepartiessite.ru
-БЭК - api.tpunion.students.nomorepartiessite.ru
 
 ## Установка
 
