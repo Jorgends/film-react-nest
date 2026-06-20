@@ -1,5 +1,8 @@
 # FILM!
 
+ФРОНТ - tpunion.students.nomorepartiessite.ru
+БЭК - api.tpunion.students.nomorepartiessite.ru
+
 ## Установка
 
 ### MongoDB
