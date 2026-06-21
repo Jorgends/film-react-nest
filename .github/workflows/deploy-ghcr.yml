@@ -1,0 +1,45 @@
+name: Сборка и публикация проекта в GHCR
+
+on:
+  push:
+    branches: [ "review" ]
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    strategy:
+      matrix:
+        # Указываем имена сервисов, совпадающие с названиями папок в корне проекта
+        service: [frontend, backend, nginx]
+
+    steps:
+      - name: Имя владельца в нижнем регистре
+        run: echo "OWNER=${GITHUB_ACTOR,,}" >> $GITHUB_ENV
+
+      - name: Получение исходного кода
+        uses: actions/checkout@v4
+
+      - name: Авторизация в GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Настройка Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Сборка и публикация образов
+        uses: docker/build-push-action@v6
+        with:
+          # Контекстом сборки для каждого сервиса становится его папка (например, ./frontend)
+          context: ./${{ matrix.service }}
+          push: true
+          # Названия образов будут: film-react-frontend, film-react-backend, film-react-nginx
+          tags: |
+            ghcr.io/${{ env.OWNER }}/film-react-${{ matrix.service }}:latest
+            ghcr.io/${{ env.OWNER }}/film-react-${{ matrix.service }}:${{ github.sha }}

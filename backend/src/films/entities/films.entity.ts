@@ -1,4 +1,4 @@
-import { Schedule } from 'src/films/entities/schedule.entity';
+import { Schedule } from '../../films/entities/schedule.entity';
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 
 @Entity('films')
