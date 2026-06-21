@@ -2,27 +2,27 @@ import { LoggerService, Injectable } from '@nestjs/common';
 
 @Injectable()
 export class JsonLogger implements LoggerService {
-  private formatMessage(level: string, message: any, ...optionalParams: any[]) {
+  private formatMessage(level: string, message: unknown, ...optionalParams: unknown[]) {
     return JSON.stringify({ level, message, optionalParams });
   }
 
-  log(message: any, ...optionalParams: any[]) {
-    console.log(this.formatMessage('log', message, optionalParams));
+  log(message: unknown, ...optionalParams: unknown[]) {
+    console.log(this.formatMessage('log', message, ...optionalParams));
   }
 
-  error(message: any, ...optionalParams: any[]) {
-    console.error(this.formatMessage('error', message, optionalParams));
+  error(message: unknown, ...optionalParams: unknown[]) {
+    console.error(this.formatMessage('error', message, ...optionalParams));
   }
 
-  warn(message: any, ...optionalParams: any[]) {
-    console.warn(this.formatMessage('warn', message, optionalParams));
+  warn(message: unknown, ...optionalParams: unknown[]) {
+    console.warn(this.formatMessage('warn', message, ...optionalParams));
   }
 
-  debug(message: any, ...optionalParams: any[]) {
-    console.debug(this.formatMessage('dehug', message, optionalParams));
+  debug(message: unknown, ...optionalParams: unknown[]) {
+    console.debug(this.formatMessage('debug', message, ...optionalParams));
   }
 
-  verbose(message: any, ...optionalParams: any[]) {
-    console.info(this.formatMessage('verdose', message, optionalParams));
+  verbose(message: unknown, ...optionalParams: unknown[]) {
+    console.info(this.formatMessage('verbose', message, ...optionalParams));
   }
 }

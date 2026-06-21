@@ -1,4 +1,3 @@
-// ...existing code...
 import { Injectable, LoggerService } from '@nestjs/common';
 
 @Injectable()
@@ -9,7 +8,7 @@ export class TskvLogger implements LoggerService {
     this.context = context;
   }
 
-  private safeValue(value: any): string {
+  private safeValue(value: unknown): string {
     if (value === null || value === undefined) return '';
     if (typeof value === 'string') {
       return value.replace(/\t/g, ' ').replace(/\r?\n/g, ' ');
@@ -23,12 +22,12 @@ export class TskvLogger implements LoggerService {
 
   private formatMessage(
     level: string,
-    message: any,
-    meta?: Record<string, any>,
+    message: unknown,
+    meta?: Record<string, unknown>,
   ) {
     const time = new Date().toISOString();
     const pid = process.pid;
-    const ctx = this.context ?? meta?.context ?? '';
+    const ctx = this.context ?? (meta?.context as string | undefined) ?? '';
     const msg = this.safeValue(message);
     const fields: Record<string, string> = {
       time,
@@ -50,29 +49,43 @@ export class TskvLogger implements LoggerService {
     );
   }
 
-  log(message: any, ...optionalParams: any[]) {
+  log(message: unknown, ...optionalParams: unknown[]) {
     const meta = optionalParams.length ? { params: optionalParams } : undefined;
     process.stdout.write(this.formatMessage('log', message, meta));
   }
 
-  error(message: any, trace?: string, context?: string) {
-    const meta: Record<string, any> = {};
-    if (trace) meta.trace = trace;
-    if (context) meta.context = context;
+  error(message: unknown, ...optionalParams: unknown[]) {
+    const meta: Record<string, unknown> = {};
+    
+    // NestJS передает в optionalParams [trace, context] или просто [context]
+    if (optionalParams.length > 0) {
+      const [first, second] = optionalParams;
+      if (typeof first === 'string') {
+        meta.trace = first;
+      }
+      if (typeof second === 'string') {
+        meta.context = second;
+      } else if (optionalParams.length === 1 && typeof first === 'string') {
+        // Если передан только один строковый параметр, NestJS часто использует его как context
+        meta.context = first;
+      }
+      meta.params = optionalParams;
+    }
+
     process.stderr.write(this.formatMessage('error', message, meta));
   }
 
-  warn(message: any, ...optionalParams: any[]) {
+  warn(message: unknown, ...optionalParams: unknown[]) {
     const meta = optionalParams.length ? { params: optionalParams } : undefined;
     process.stderr.write(this.formatMessage('warn', message, meta));
   }
 
-  debug(message: any, ...optionalParams: any[]) {
+  debug(message: unknown, ...optionalParams: unknown[]) {
     const meta = optionalParams.length ? { params: optionalParams } : undefined;
     process.stdout.write(this.formatMessage('debug', message, meta));
   }
 
-  verbose(message: any, ...optionalParams: any[]) {
+  verbose(message: unknown, ...optionalParams: unknown[]) {
     const meta = optionalParams.length ? { params: optionalParams } : undefined;
     process.stdout.write(this.formatMessage('verbose', message, meta));
   }
