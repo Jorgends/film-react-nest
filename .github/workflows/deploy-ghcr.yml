@@ -2,7 +2,7 @@ name: Сборка и публикация проекта в GHCR
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "review" ]
 
 jobs:
   build-and-push:
