@@ -1,5 +1,5 @@
 # FILM!
-сайт - tpunion.students.nomorepartiessite.ru
+сайт - tpunion.nomorepartiessite.ru
 
 
 ## Установка
