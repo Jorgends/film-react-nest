@@ -12,8 +12,7 @@ RUN npm run build
 
 FROM alpine:latest
 
-WORKDIR /shared
-
+WORKDIR /app-dist
 COPY --from=builder /app/dist .
 
-CMD ["sh", "-c", "cp -r ./* /shared && tail -f /dev/null"]
+CMD ["sh", "-c", "cp -r /app-dist/. /shared/ && tail -f /dev/null"]
